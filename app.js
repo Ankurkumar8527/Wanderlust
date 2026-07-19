@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !="production") {
+    require('dotenv').config();
+}
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -18,6 +22,8 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 const cookieParser = require("cookie-parser");
+
+
 
 main()
 .then(()=>{
@@ -74,14 +80,6 @@ app.use((req,res,next)=>{
     next();
 });
 
-// app.get("/demouser", async(req,res)=>{
-//     let fakeuser = new User({
-//         email:"studentxyz@gmail.com",
-//         username:"Delta-student100"
-//     });
-//     let registeredUser = await User.register(fakeuser,"helloworld");
-//     res.send(registeredUser);
-// });
 
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
@@ -92,10 +90,10 @@ app.all(/.*/,(req,res,next)=>{
     next(new ExpressError(404,"Page not found!"));
 });
 
-app.use((err,req,res,next)=>{
-    let {statusCode=500,message="Some error occured"}=err;
-    res.status(statusCode).render("errors.ejs",{message});
-});
+// app.use((err,req,res,next)=>{
+//     let {statusCode=500,message="Some error occured"}=err;
+//     res.status(statusCode).render("errors.ejs",{message});
+// });
 
 app.listen(8080,()=>{
     console.log("Server is listening...");
