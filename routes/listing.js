@@ -29,6 +29,7 @@ router.route("/:id")
 .put(
     isLoggedIn,
     isOnwer,
+    upload.single("listing[image]"),
     validateListing,
     wrapAsync(listingController.updateListing))
 .delete(isLoggedIn,isOnwer, wrapAsync(listingController.deleteListing));
